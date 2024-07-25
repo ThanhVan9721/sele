@@ -148,28 +148,34 @@ def submit(driver, numVersion):
 
 if __name__ == "__main__":
     while True:
-        options = webdriver.ChromeOptions()
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--headless=new")
-        driver = webdriver.Chrome(options=options)
-        userName = generate_unique_string("buithanhvan21011997", length=5)
-        print(userName)
-        signup_triage(driver, userName)
-        mail_veri = check_mail()
-        driver.get(mail_veri)
-        # Test
-        login_triage(driver, userName)
-        time.sleep(5)
-        numVersion = 1
-        submitJob = True
-        while submitJob:
-            driver.get('https://tria.ge/submit/file')
+        try:
+            options = webdriver.ChromeOptions()
+            options.add_argument("--no-sandbox")
+            options.add_argument("--disable-dev-shm-usage")
+            options.add_argument("--headless=new")
+            driver = webdriver.Chrome(options=options)
+            userName = generate_unique_string("buithanhvan21011997", length=5)
+            print(userName)
+            signup_triage(driver, userName)
+            mail_veri = check_mail()
+            driver.get(mail_veri)
+            # Test
+            login_triage(driver, userName)
             time.sleep(5)
-            result = submit(driver, numVersion)
-            time.sleep(2)
-            if numVersion == 19:
-                numVersion = 0
-            if result == False:
-                submitJob == False
-            numVersion += 1
+            numVersion = 1
+            submitJob = True
+            while submitJob:
+                driver.get('https://tria.ge/submit/file')
+                time.sleep(5)
+                result = submit(driver, numVersion)
+                time.sleep(2)
+                if numVersion == 19:
+                    numVersion = 0
+                if result == False:
+                    submitJob == False
+                numVersion += 1
+        except:
+            print("Lỗi")
+            driver.save_screenshot("/sdcard/download/screenshot.png")
+
+        
