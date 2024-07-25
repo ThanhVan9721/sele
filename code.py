@@ -81,7 +81,7 @@ def veri_capcha(driver):
         time.sleep(1)
         solve_audio_captcha(driver)
     except Exception as e:
-        print("Không cần veri")
+        print(f"Không cần veri: {e}")
 
 def signup_triage(driver, userName): 
     driver.get("https://tria.ge/signup/individual")
