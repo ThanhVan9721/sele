@@ -174,8 +174,8 @@ if __name__ == "__main__":
                 if result == False:
                     submitJob == False
                 numVersion += 1
-        except:
-            print("Lỗi")
+        except Exception as e:
+            print(f"Lỗi: {e}")
             driver.save_screenshot("/sdcard/download/screenshot.png")
 
         
