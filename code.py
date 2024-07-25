@@ -149,9 +149,9 @@ def submit(driver, numVersion):
 if __name__ == "__main__":
     while True:
         options = webdriver.ChromeOptions()
-        options.add_argument("--incognito")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--headless=new")
         driver = webdriver.Chrome(options=options)
         userName = generate_unique_string("buithanhvan21011997", length=5)
         print(userName)
