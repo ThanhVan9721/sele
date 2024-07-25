@@ -81,6 +81,7 @@ def veri_capcha(driver):
         time.sleep(1)
         solve_audio_captcha(driver)
     except Exception as e:
+        driver.save_screenshot("/sdcard/download/veri.png")
         print(f"Không cần veri: {e}")
 
 def signup_triage(driver, userName): 
@@ -143,6 +144,7 @@ def submit(driver, numVersion):
         return True
     except Exception as e:
         print(e)
+        driver.save_screenshot("/sdcard/download/folowjob.png")
         return False
 
 
@@ -164,7 +166,9 @@ if __name__ == "__main__":
             time.sleep(5)
             numVersion = 1
             submitJob = True
+            print("Bắt đầu job")
             while submitJob:
+                print(f"Lần: {numVersion}")
                 driver.get('https://tria.ge/submit/file')
                 time.sleep(5)
                 result = submit(driver, numVersion)
@@ -172,7 +176,7 @@ if __name__ == "__main__":
                 if numVersion == 19:
                     numVersion = 0
                 if result == False:
-                    submitJob == False
+                    submitJob = False
                 numVersion += 1
         except Exception as e:
             print(f"Lỗi: {e}")
