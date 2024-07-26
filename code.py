@@ -130,21 +130,16 @@ def check_mail():
 def submit(driver, numVersion, url):
     try:
         driver.switch_to.default_content()
-        time.sleep(1)
+        time.sleep(2)
         driver.find_element(By.ID, "url").send_keys(f"{url}{numVersion}.zip")
         driver.find_element(By.ID, "fetch-button").click()
         time.sleep(5)
         driver.switch_to.default_content()
         driver.find_element(By.CSS_SELECTOR, "[data-deselect-all]").click()
-        time.sleep(1)
         driver.find_element(By.XPATH, "//span[text()='.exe']").click()
-        time.sleep(1)
         driver.find_element(By.XPATH, "//*[@for='os:windows10-1703-x64']").click()
-        time.sleep(1)
         driver.find_element(By.XPATH, "//*[@for='os:windows10-2004-x64']").click()
-        time.sleep(1)
         driver.find_element(By.XPATH, "//*[@for='os:windows11-21h2-x64']").click()
-        time.sleep(1)
         driver.find_element(By.XPATH, "//*[@for='timeout-300']").click()
         driver.find_element(By.ID, "finish-submit").click()
         return True
