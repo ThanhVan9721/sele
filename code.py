@@ -127,18 +127,24 @@ def check_mail():
     else:
         print("Không tìm thấy email từ nguồn này.")
     
-def submit(driver, numVersion):
+def submit(driver, numVersion, url):
     try:
         driver.switch_to.default_content()
-        driver.find_element(By.ID, "url").send_keys(f"https://github.com/ThanhVan9721/cz/archive/refs/heads/x{numVersion}.zip")
+        time.sleep(1)
+        driver.find_element(By.ID, "url").send_keys(f"{url}{numVersion}.zip")
         driver.find_element(By.ID, "fetch-button").click()
         time.sleep(5)
         driver.switch_to.default_content()
         driver.find_element(By.CSS_SELECTOR, "[data-deselect-all]").click()
+        time.sleep(1)
         driver.find_element(By.XPATH, "//span[text()='.exe']").click()
+        time.sleep(1)
         driver.find_element(By.XPATH, "//*[@for='os:windows10-1703-x64']").click()
+        time.sleep(1)
         driver.find_element(By.XPATH, "//*[@for='os:windows10-2004-x64']").click()
+        time.sleep(1)
         driver.find_element(By.XPATH, "//*[@for='os:windows11-21h2-x64']").click()
+        time.sleep(1)
         driver.find_element(By.XPATH, "//*[@for='timeout-300']").click()
         driver.find_element(By.ID, "finish-submit").click()
         return True
@@ -149,6 +155,7 @@ def submit(driver, numVersion):
 
 
 if __name__ == "__main__":
+    url = input("Nhập URL: ")
     while True:
         try:
             options = webdriver.ChromeOptions()
@@ -171,7 +178,7 @@ if __name__ == "__main__":
                 print(f"Lần: {numVersion}")
                 driver.get('https://tria.ge/submit/file')
                 time.sleep(5)
-                result = submit(driver, numVersion)
+                result = submit(driver, numVersion, url)
                 time.sleep(2)
                 if numVersion == 19:
                     numVersion = 0
@@ -181,5 +188,3 @@ if __name__ == "__main__":
         except Exception as e:
             print(f"Lỗi: {e}")
             driver.save_screenshot("/sdcard/download/screenshot.png")
-
-        
