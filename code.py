@@ -169,7 +169,7 @@ if __name__ == "__main__":
             mail_veri = check_mail()
             driver.get(mail_veri)
             # Test
-            driver.get('https://tria.ge/submit/file')
+            time.sleep(5)
             login_triage(driver, userName)
             time.sleep(5)
             numVersion = 1
