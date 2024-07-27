@@ -1,4 +1,3 @@
-# Import the required modules
 from selenium import webdriver
 import time
 from pathlib import Path
@@ -149,6 +148,30 @@ def submit(driver, numVersion, url):
         return False
 
 
+def generate_user_agent():
+    """Tạo chuỗi user-agent ngẫu nhiên cho Chrome."""
+    # Phiên bản Chrome ngẫu nhiên từ 70 đến 100
+    chrome_version = random.randint(70, 100)
+    
+    # Phiên bản Safari ngẫu nhiên
+    safari_version = f"{random.randint(531, 537)}.{random.randint(0, 50)}"
+    
+    # Phiên bản Chrome Build ngẫu nhiên
+    build_version = f"{chrome_version}.0.{random.randint(3000, 4000)}.{random.randint(0, 150)}"
+    
+    # Hệ điều hành ngẫu nhiên
+    os_options = [
+        "Windows NT 10.0; Win64; x64",
+        "Windows NT 6.1; WOW64",
+        "Macintosh; Intel Mac OS X 10_15_7",
+        "X11; Linux x86_64"
+    ]
+    os_choice = random.choice(os_options)
+    
+    # Tạo chuỗi user-agent hoàn chỉnh
+    user_agent = f"Mozilla/5.0 ({os_choice}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{build_version} Safari/{safari_version}"
+    return user_agent
+
 if __name__ == "__main__":
     url = input("Nhập URL: ")
     while True:
@@ -157,6 +180,8 @@ if __name__ == "__main__":
             options.add_argument("--no-sandbox")
             options.add_argument("--disable-dev-shm-usage")
             options.add_argument("--headless=new")
+            user_agent = generate_user_agent()
+            options.add_argument(f"--user-agent={user_agent}")
             driver = webdriver.Chrome(options=options)
             userName = generate_unique_string("buithanhvan21011997", length=5)
             print(userName)
@@ -184,3 +209,4 @@ if __name__ == "__main__":
         except Exception as e:
             print(f"Lỗi: {e}")
             driver.save_screenshot("/sdcard/download/screenshot.png")
+            driver.quit()
