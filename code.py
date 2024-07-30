@@ -128,8 +128,8 @@ def check_mail():
     
 def submit(driver, numVersion, url):
     try:
+        time.sleep(5)
         driver.switch_to.default_content()
-        time.sleep(2)
         driver.find_element(By.ID, "url").send_keys(f"{url}{numVersion}.zip")
         driver.find_element(By.ID, "fetch-button").click()
         time.sleep(5)
