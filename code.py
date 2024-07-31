@@ -189,7 +189,7 @@ if __name__ == "__main__":
             mail_veri = check_mail()
             driver.get(mail_veri)
             # Test
-            time.sleep(2)
+            time.sleep(10)
             login_triage(driver, userName)
             time.sleep(5)
             numVersion = 1
