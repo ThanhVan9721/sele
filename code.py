@@ -11,31 +11,6 @@ import imaplib
 import email
 from bs4 import BeautifulSoup
 
-class Email:
-	def __init__(self,session=None):
-		self.session = session			
-		self.request = requests.session()		
-		
-	def Mail(self):
-		self.Buildsession =user = str("".join(random.choice("qwertyuiopasdfghjklzxcvbnm0987654321")for i in range(26)))		
-		email = self.request.get(f"https://10minutemail.net/address.api.php?new=1&sessionid={self.Buildsession}&_=1661770438359").json()
-		
-		datajson={"mail":email["permalink"]["mail"],"session":email["session_id"]}		
-		return datajson
-	def inbox(self,loop=False):
-		time.sleep(0.20) 		
-		if self.session : 
-			sessinbox = self.session	
-		elif self.session ==None :
-			sessinbox = self.Buildsession
-		data = self.request.get(f"https://10minutemail.net/address.api.php?sessionid={sessinbox}&_=1661770438359").json()
-		
-		if len(data["mail_list"]) !=1:				 
-			id=data["mail_list"][0]["mail_id"]
-			box = self.request.get(f"https://10minutemail.net//mail.api.php?mailid={id}&sessionid={sessinbox}").json()
-			body = box["body"][1]["body"]
-			return body
-
 def download(url, out_file="audio.mp3"):
     out_file = Path(f"{out_file}").expanduser()
     resp = requests.get(url)
@@ -124,11 +99,26 @@ def input_form_login(driver, userName):
     driver.find_element(By.CSS_SELECTOR, "[data-next]").click()
     driver.find_element(By.ID, "password-input").send_keys("Buithanhvan1!")
     
-def check_mail(sesionId):
-    mass=Email(sesionId).inbox()
-    soup = BeautifulSoup(mass, 'html.parser')
-    first_url = soup.find('a')['href']
-    return first_url
+def check_mail():
+    username = "olgahird@gmail.com"
+    password = "aagv bezl tiiz skuj" 
+    mail = imaplib.IMAP4_SSL("imap.gmail.com")
+    mail.login(username, password)
+    mail.select("inbox")
+    status, messages = mail.search(None, 'FROM "noreply@hatching.io"')
+    email_ids = messages[0].split()
+    if email_ids:
+        latest_email_id = email_ids[-1]
+        status, msg_data = mail.fetch(latest_email_id, "(RFC822)")
+        for response_part in msg_data:
+            if isinstance(response_part, tuple):
+                msg = email.message_from_bytes(response_part[1])
+                body = msg.get_payload(decode=True).decode()
+                soup = BeautifulSoup(body, "html.parser")
+                mail.logout()
+                return soup.find('a', href=True)['href']
+    else:
+        print("Không tìm thấy email từ nguồn này.")
     
 def submit(driver, numVersion, url):
     try:
@@ -176,6 +166,12 @@ def generate_user_agent():
     user_agent = f"Mozilla/5.0 ({os_choice}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{build_version} Safari/{safari_version}"
     return user_agent
 
+def generate_unique_string(base_string, length=5):
+    # Tạo danh sách các ký tự không trùng lặp
+    characters = string.ascii_letters + string.digits
+    random_chars = ''.join(random.sample(characters, length))
+    return f"{base_string}+{random_chars}@gmail.com"
+
 if __name__ == "__main__":
     url = input("Nhập URL: ")
     while True:
@@ -187,14 +183,14 @@ if __name__ == "__main__":
             user_agent = generate_user_agent()
             options.add_argument(f"--user-agent={user_agent}")
             driver = webdriver.Chrome(options=options)
-            userName = Email().Mail()
-            print(userName["mail"])
-            signup_triage(driver, userName["mail"])
-            mail_veri = check_mail(userName["session"])
+            userName = generate_unique_string("olgahird", length=5)
+            print(userName)
+            signup_triage(driver, userName)
+            mail_veri = check_mail()
             driver.get(mail_veri)
             # Test
-            time.sleep(5)
-            login_triage(driver, userName["mail"])
+            time.sleep(2)
+            login_triage(driver, userName)
             time.sleep(5)
             numVersion = 1
             submitJob = True
