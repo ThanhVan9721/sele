@@ -45,7 +45,7 @@ def submit(driver, numVersion, url):
 
 if __name__ == '__main__':
     url = input("Nhập URL: ")
-    driver = uc.Chrome(headless=True)
+    driver = uc.Chrome()
     driver.get('https://tria.ge/auth?provider=google&return_to=')
 
     # add email
