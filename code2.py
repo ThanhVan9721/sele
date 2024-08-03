@@ -28,7 +28,7 @@ class TestSimpleLogin(BaseCase):
         self.type("input#identifierId", "nakeemostwinkle375@gmail.com")
         self.click('//*[contains(text(), "Next")]')
         sleep(5)
-        self.type('//*[@id="password"]/div[1]/div/div[1]/input', "tfNtLjum5q")
+        self.type('input#password', "tfNtLjum5q")
         self.click('//*[@id="passwordNext"]/div/button/span')
         try:
             self.click("//button[.//span[text()='Continue']]")
