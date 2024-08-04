@@ -25,10 +25,10 @@ class TestSimpleLogin(BaseCase):
         url = "https://github.com/ThanhVan9721/cz/archive/refs/heads/x"
         self.open("https://tria.ge/auth?provider=google&return_to=")
         sleep(2)
-        self.type("input#identifierId", "nakeemostwinkle375@gmail.com")
+        self.type("input#identifierId", "Rosalynjti385@gmail.com")
         self.click('//*[contains(text(), "Next")]')
         sleep(5)
-        self.type('input#password', "tfNtLjum5q")
+        self.type('//*[@id="password"]/div[1]/div/div[1]/input', "i8b078mS")
         self.click('//*[@id="passwordNext"]/div/button/span')
         try:
             self.click("//button[.//span[text()='Continue']]")
